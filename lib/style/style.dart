@@ -15,6 +15,7 @@ const colorLightGray=Color.fromRGBO(135, 142, 150, 1.0);
 const colorLight=Color.fromRGBO(211, 211, 211, 1.0);
 
 
+// text style
 TextStyle Head1Text(textColor){
   return TextStyle(
     color: textColor,
@@ -35,6 +36,7 @@ TextStyle Head6Text(textColor){
 }
 
 
+// input decoration style
 InputDecoration AppInputDecoration(label){
   return InputDecoration(
     focusedBorder: const OutlineInputBorder(
@@ -48,5 +50,95 @@ InputDecoration AppInputDecoration(label){
       ),
       border: OutlineInputBorder(),
       labelText:label,
+  );
+}
+
+
+// drop down style
+
+DecoratedBox AppDropDownStyle(child){
+  return DecoratedBox(
+    decoration: BoxDecoration(color:Colors.white,border:Border.all(color:Colors.white,width:1),borderRadius:BorderRadius.circular(4)),
+    child:Padding(
+      padding:EdgeInsets.only(left:30,right:30),
+      child:child
+    ),
+    );
+
+}
+
+
+// splash Screenbackground
+
+SvgPicture ScreenBackground(context){
+  return SvgPicture.asset(
+    'assets/images/screen-back.svg',
+    alignment: Alignment.center,
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.height,
+    fit: BoxFit.cover,
+  );
+}
+
+
+// button Style
+
+ButtonStyle AppButtonStyle(){
+  return ElevatedButton.styleFrom(
+    elevation:1,
+    padding:EdgeInsets.zero,
+    backgroundColor: Colors.transparent,
+    shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+  );
+}
+
+
+
+//button TextStyle
+TextStyle ButtonTextStyle(){
+  return TextStyle(
+    fontSize: 14,
+    fontFamily: 'poppins',
+    fontWeight: FontWeight.w400,
+  );
+}
+
+
+// button Color Type
+
+Ink SuccessButtonChild(String ButtonText){
+  return Ink(
+    decoration: BoxDecoration(color:colorGreen,borderRadius:BorderRadius.circular(6)),
+    child:Container(
+      height: 45,
+      alignment: Alignment.center,
+      child:Text(ButtonText,style:ButtonTextStyle(),)
+    ),
+  );
+}
+
+//Toaster Message
+
+void SuccessToast(msg){
+  Fluttertoast.showToast(
+    msg:msg,
+    timeInSecForIosWeb: 1,
+    toastLength: Toast.LENGTH_SHORT,
+    backgroundColor: colorGreen,
+    textColor: colorWhite,
+    fontSize: 16.0
+  );
+}
+
+
+// warning message
+void ErrorToast(msg){
+  Fluttertoast.showToast(
+    msg:msg,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    toastLength: Toast.LENGTH_SHORT,
+    backgroundColor: colorWhite,
+    fontSize: 16.0
   );
 }
