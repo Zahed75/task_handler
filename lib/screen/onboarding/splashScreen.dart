@@ -31,8 +31,9 @@ class _SplashScreen extends State<SplashScreen>{
                 SizedBox(height: 10,),
                 Text('Task Management for the Best Battalions',style:TextStyle(
                   fontSize: 15,
-                  fontWeight: FontWeight.w900,
-                  color:Colors.white
+                  fontWeight: FontWeight.w800,
+                  color:Colors.white,
+                  fontFamily: AutofillHints.familyName
                 ),),
               ],
             ),
