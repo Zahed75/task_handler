@@ -85,10 +85,19 @@ SvgPicture ScreenBackground(context){
 
 ButtonStyle AppButtonStyle(){
   return ElevatedButton.styleFrom(
-    elevation:1,
-    padding:EdgeInsets.zero,
-    backgroundColor: Colors.transparent,
-    shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      elevation: 1,
+      padding: EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))
+  );
+}
+
+
+ButtonStyle AppStatusButtonStyle(btnColor){
+  return ElevatedButton.styleFrom(
+      elevation: 1,
+      padding: EdgeInsets.zero,
+      backgroundColor: btnColor,
   );
 }
 
@@ -140,5 +149,24 @@ void ErrorToast(msg){
     toastLength: Toast.LENGTH_SHORT,
     backgroundColor: colorWhite,
     fontSize: 16.0
+  );
+}
+
+
+// PIN code Design
+
+PinTheme AppOTPStyle(){
+  return PinTheme(
+    inactiveColor: colorLight,
+    inactiveFillColor: colorWhite,
+    selectedColor: colorGreen,
+    activeColor: colorWhite,
+    selectedFillColor: colorGreen,
+    shape: PinCodeFieldShape.box,
+    borderRadius: BorderRadius.circular(5),
+    fieldHeight: 50,
+    borderWidth: 0.5,
+    fieldWidth: 45,
+  activeFillColor: Colors.white
   );
 }
