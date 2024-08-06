@@ -20,10 +20,9 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
     debugShowCheckedModeBanner: false,
     title:"Task Manager",
-    initialRoute: '/registration',
+    initialRoute: '/emailVerification',
       routes:{
         // '/':(conext)=>SplashScreen(),
-       
         '/login':(conext)=>loginScreen(),
         '/registration':(conext)=>registrationScreen(),
         '/emailVerification':(conext)=>emailVerificationScreen(),
