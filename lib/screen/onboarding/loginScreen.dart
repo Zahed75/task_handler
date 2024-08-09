@@ -39,7 +39,7 @@ class _loginScreen extends State<loginScreen> {
     });
 
     if (res) {
-      Navigator.pushNamedAndRemoveUntil(context, "/newTaskList", (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
     }
   }
 

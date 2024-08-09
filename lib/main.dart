@@ -5,6 +5,7 @@ import 'package:task_handler/screen/onboarding/loginScreen.dart';
 import 'package:task_handler/screen/onboarding/pinVerificationScreen.dart';
 import 'package:task_handler/screen/onboarding/registrationScreen.dart';
 import 'package:task_handler/screen/onboarding/setPasswordScreen.dart';
+import 'package:task_handler/screen/task/homeScreen.dart';
 import 'package:task_handler/screen/task/newTaskListScreen.dart';
 import 'package:task_handler/utility/utility.dart';
 
@@ -36,6 +37,7 @@ MyApp(this.FirstRoute);
     initialRoute: '/',
       routes:{
         '/':(conext)=>SplashScreen(),
+        '/home':(context)=>homeScreen(),
         '/login':(conext)=>loginScreen(),
         '/registration':(conext)=>registrationScreen(),
         '/emailVerification':(conext)=>emailVerificationScreen(),
