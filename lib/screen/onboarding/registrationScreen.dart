@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:task_handler/api/apiClient.dart';
 import 'package:task_handler/style/style.dart';
 
 
@@ -13,6 +14,48 @@ class registrationScreen extends StatefulWidget{
 
 
 class _registrationScreen extends State<registrationScreen>{
+
+  Map<String,String>FormValues={"email":"","firstName":"","lastName":"","mobile":"","photo":"","cpassword":""};
+  bool Loading = false;
+
+  InputOnChange(MapKey,Textvalue){
+    setState(() {
+      FormValues.update(MapKey,(value)=>Textvalue);
+    });
+  }
+
+FormOnSubmit()async{
+  if(FormValues['email']!.length==0){
+    ErrorToast("Email is required");
+  }
+  else if(FormValues['firstName']!.length==0){
+    ErrorToast("First Name is Required");
+  }
+  else if(FormValues['lastName']!.length==0){
+    ErrorToast("Last Name is Required");
+  }
+  else if(FormValues['mobile']!.length==0){
+    ErrorToast("Mobile No is Required");
+  }
+  else if(FormValues['password']!.length==0){
+    ErrorToast("Password is required");
+  }
+  else if(FormValues['password']!=FormValues['cpassword']){
+    ErrorToast("Confirm Passwrod is required");
+  }
+  else{
+    setState(() {Loading =true;});
+    bool res = await RegistrationRequest(FormValues); // api call Registration
+    if(res==true){
+      Navigator.pushNamedAndRemoveUntil(context, "/login", (route)=>false); // next route
+    }
+    else{
+      setState(() {Loading = false;});
+    }
+  }
+
+}
+
 
   @override
   Widget build(BuildContext context){

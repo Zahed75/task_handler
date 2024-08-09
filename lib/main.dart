@@ -6,15 +6,26 @@ import 'package:task_handler/screen/onboarding/pinVerificationScreen.dart';
 import 'package:task_handler/screen/onboarding/registrationScreen.dart';
 import 'package:task_handler/screen/onboarding/setPasswordScreen.dart';
 import 'package:task_handler/screen/task/newTaskListScreen.dart';
+import 'package:task_handler/utility/utility.dart';
 
 
-void main(){
-  runApp(const MyApp());
+void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+String? token = await ReadUserData('token');
+if(token==null){
+  runApp(MyApp("/login"));// if token available
+}else{
+  runApp(MyApp("/newTaskList"));
+}
+  
 }
 
 
+
 class MyApp extends StatelessWidget{
-  const MyApp({super.key});
+  final String FirstRoute;
+
+MyApp(this.FirstRoute);
  
  @override
 
@@ -22,7 +33,7 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
     debugShowCheckedModeBanner: false,
     title:"Task Manager",
-    initialRoute: '/',
+    initialRoute: FirstRoute,
       routes:{
         '/':(conext)=>SplashScreen(),
         '/login':(conext)=>loginScreen(),

@@ -11,41 +11,37 @@ class loginScreen extends StatefulWidget {
 }
 
 class _loginScreen extends State<loginScreen> {
-  // API Calling
-  Map<String, String> FormValues = {"email": "", "password": ""};
+  Map<String, String> formValues = {"email": "", "password": ""};
+  bool loading = false;
 
-  bool Loading = false;
-
-  InputOnChange(MapKey, Textvalue) {
+  void inputOnChange(String mapKey, String textValue) {
     setState(() {
-      FormValues.update(MapKey, (value) => Textvalue);
+      formValues.update(mapKey, (value) => textValue);
     });
   }
 
-  FormOnSubmit() async {
-    if (FormValues['email']!.length == 0) {
+  Future<void> formOnSubmit() async {
+    if (formValues['email']!.isEmpty) {
       ErrorToast("Email is required");
-    } else if (FormValues['password']!.length == 0) {
+      return;
+    } else if (formValues['password']!.isEmpty) {
       ErrorToast("Password is required");
-    } else {
-      setState(() {
-        Loading = true; // will be true
+      return;
+    }
 
-      });
-      bool res = await LoginRequest(FormValues);
-      if (res == true) {
-        // Navigate to Dashboard Page
-       Navigator.pushNamedAndRemoveUntil(context, "/newTaskList", (route)=> false);
+    setState(() {
+      loading = true; // Show loading indicator
+    });
 
-      } else {
-        setState(() {
-          Loading = false;
-        });
-      }
+    bool res = await LoginRequest(formValues);
+    setState(() {
+      loading = false; // Hide loading indicator
+    });
+
+    if (res) {
+      Navigator.pushNamedAndRemoveUntil(context, "/newTaskList", (route) => false);
     }
   }
-
-  /// API Calling END
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +51,7 @@ class _loginScreen extends State<loginScreen> {
           ScreenBackground(context),
           Container(
             alignment: Alignment.center,
-            child: Loading? (Center(child: CircularProgressIndicator())): (SingleChildScrollView(
+            child: loading? Center(child: CircularProgressIndicator()): SingleChildScrollView(
                     padding: EdgeInsets.all(30),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -66,15 +62,16 @@ class _loginScreen extends State<loginScreen> {
                         Text("Track Task More fast", style: Head6Text(colorLightGray)),
                         SizedBox(height: 1),
                         TextFormField(
-                          onChanged: (TextValue) {
-                            InputOnChange("email", TextValue);
+                          onChanged: (textValue) {
+                            inputOnChange("email", textValue);
                           },
                           decoration: AppInputDecoration("Email Address"),
                         ),
                         SizedBox(height: 5),
                         TextFormField(
-                          onChanged: (TextValue) {
-                            InputOnChange("password", TextValue);
+                          obscureText: true, // Hide password text
+                          onChanged: (textValue) {
+                            inputOnChange("password", textValue);
                           },
                           decoration: AppInputDecoration("Password"),
                         ),
@@ -84,13 +81,49 @@ class _loginScreen extends State<loginScreen> {
                             style: AppButtonStyle(),
                             child: SuccessButtonChild('Login'),
                             onPressed: () {
-                              FormOnSubmit();
+                              formOnSubmit();
                             },
                           ),
                         ),
+                        SizedBox(height: 2,),
+                        Container(
+                          alignment: Alignment.center,
+                           child:Column(
+                            children: [
+                              SizedBox(height: 20,),
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pushNamed(context,"/emailVerification");
+                                },
+                                child:Text("ForgetPassword",style:Head7Text(colorLightGray))
+                              )
+                            ],
+                           )
+                        ),
+                        SizedBox(height: 3,),
+                        Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: [
+                              SizedBox(height: 20,),
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pushNamed(context, "/registration");
+                                },
+                                child:Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Don't Have an Account? ",style:Head7Text(colorDarkBlue)),
+                                    Text("SignUp",style: Head7Text(colorGreen),)
+                                  ],
+                                )
+                              )
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )),
+                  ),
           ),
         ],
       ),

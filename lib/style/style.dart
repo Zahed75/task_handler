@@ -15,7 +15,6 @@ const colorLightGray=Color.fromRGBO(135, 142, 150, 1.0);
 const colorLight=Color.fromRGBO(211, 211, 211, 1.0);
 
 
-// text style
 TextStyle Head1Text(textColor){
   return TextStyle(
     color: textColor,
@@ -25,13 +24,29 @@ TextStyle Head1Text(textColor){
   );
 }
 
-
 TextStyle Head6Text(textColor){
   return TextStyle(
-    color:textColor,
-    fontSize: 16,
-    fontFamily: 'poppins',
-    fontWeight: FontWeight.w400,
+      color: textColor,
+      fontSize: 16,
+      fontFamily: 'poppins',
+      fontWeight: FontWeight.w400
+  );
+}
+TextStyle Head7Text(textColor){
+  return TextStyle(
+      color: textColor,
+      fontSize: 13,
+      fontFamily: 'poppins',
+      fontWeight: FontWeight.w400
+  );
+}
+
+TextStyle Head9Text(textColor){
+  return TextStyle(
+      color: textColor,
+      fontSize: 9,
+      fontFamily: 'poppins',
+      fontWeight: FontWeight.w500
   );
 }
 
@@ -141,16 +156,18 @@ void SuccessToast(msg){
 
 
 // warning message
-void ErrorToast(msg){
+void ErrorToast(msg) {
   Fluttertoast.showToast(
-    msg:msg,
+    msg: msg,
     gravity: ToastGravity.BOTTOM,
-    timeInSecForIosWeb: 1,
+    timeInSecForIosWeb: 2, // Increased time for visibility
     toastLength: Toast.LENGTH_SHORT,
-    backgroundColor: colorWhite,
-    fontSize: 16.0
+    backgroundColor: colorRed, // Use a color that indicates an error
+    textColor: colorWhite,
+    fontSize: 16.0,
   );
 }
+
 
 
 // PIN code Design
