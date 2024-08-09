@@ -33,7 +33,7 @@ MyApp(this.FirstRoute);
     return MaterialApp(
     debugShowCheckedModeBanner: false,
     title:"Task Manager",
-    initialRoute: FirstRoute,
+    initialRoute: '/',
       routes:{
         '/':(conext)=>SplashScreen(),
         '/login':(conext)=>loginScreen(),

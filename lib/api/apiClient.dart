@@ -96,22 +96,23 @@ Future<bool> VerifyOTPRequest(Email,OTP) async{
 
 // setPassword
 
-Future<bool> SetPasswordRequest(FormValues) async {
-  var URL = Uri.parse("${BaseURL}/RecoverResetPass");
-  var PostBody = json.encode(FormValues);
+Future<bool> SetPasswordRequest(FormValues) async{
 
-  var response = await http.post(URL,headers: RequestHeader,body:PostBody);
+  var URL=Uri.parse("${BaseURL}/RecoverResetPass");
+  var PostBody=json.encode(FormValues);
 
-  var ResultCode = response.statusCode;
-  var ResultBody = json.decode(response.body);
+  var response= await  http.post(URL,headers:RequestHeader,body: PostBody);
 
-  if(ResultCode ==200 && ResultBody['status']=="sucess"){
+  var ResultCode=response.statusCode;
+  var ResultBody=json.decode(response.body);
+
+
+  if(ResultCode==200 && ResultBody['status']=="success"){
     SuccessToast("Request Success");
     return true;
   }
   else{
-    ErrorToast("Request Failed");
+    ErrorToast("Request fail ! try again");
     return false;
   }
-
 }
