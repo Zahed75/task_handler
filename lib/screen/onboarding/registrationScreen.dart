@@ -4,99 +4,124 @@ import 'package:flutter/cupertino.dart';
 import 'package:task_handler/api/apiClient.dart';
 import 'package:task_handler/style/style.dart';
 
-
-
-
-class registrationScreen extends StatefulWidget{
+class registrationScreen extends StatefulWidget {
   @override
-  State<registrationScreen> createState() =>  _registrationScreen();
+  State<registrationScreen> createState() => _registrationScreen();
 }
 
-
-class _registrationScreen extends State<registrationScreen>{
-
-  Map<String,String>FormValues={"email":"","firstName":"","lastName":"","mobile":"","photo":"","cpassword":""};
+class _registrationScreen extends State<registrationScreen> {
+  Map<String, String> FormValues = {
+    "email": "",
+    "firstName": "",
+    "lastName": "",
+    "mobile": "",
+    "password": "",
+    "cpassword": ""
+  };
   bool Loading = false;
 
-  InputOnChange(MapKey,Textvalue){
+  InputOnChange(String MapKey, String TextValue) {
     setState(() {
-      FormValues.update(MapKey,(value)=>Textvalue);
+      FormValues.update(MapKey, (value) => TextValue);
     });
   }
 
-FormOnSubmit()async{
-  if(FormValues['email']!.length==0){
-    ErrorToast("Email is required");
-  }
-  else if(FormValues['firstName']!.length==0){
-    ErrorToast("First Name is Required");
-  }
-  else if(FormValues['lastName']!.length==0){
-    ErrorToast("Last Name is Required");
-  }
-  else if(FormValues['mobile']!.length==0){
-    ErrorToast("Mobile No is Required");
-  }
-  else if(FormValues['password']!.length==0){
-    ErrorToast("Password is required");
-  }
-  else if(FormValues['password']!=FormValues['cpassword']){
-    ErrorToast("Confirm Passwrod is required");
-  }
-  else{
-    setState(() {Loading =true;});
-    bool res = await RegistrationRequest(FormValues); // api call Registration
-    if(res==true){
-      Navigator.pushNamedAndRemoveUntil(context, "/login", (route)=>false); // next route
+  FormOnSubmit() async {
+    print(FormValues); // Debugging: Print current FormValues
+    if (FormValues['email']!.isEmpty) {
+      ErrorToast("Email is required");
+    } else if (FormValues['firstName']!.isEmpty) {
+      ErrorToast("First Name is Required");
+    } else if (FormValues['lastName']!.isEmpty) {
+      ErrorToast("Last Name is Required");
+    } else if (FormValues['mobile']!.isEmpty) {
+      ErrorToast("Mobile No is Required");
+    } else if (FormValues['password']!.isEmpty) {
+      ErrorToast("Password is required");
+    } else if (FormValues['password'] != FormValues['cpassword']) {
+      ErrorToast("Confirm Password does not match");
+    } else {
+      setState(() {
+        Loading = true;
+      });
+      bool res = await RegistrationRequest(FormValues); // API call Registration
+      if (res == true) {
+        Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false); // Next route
+      } else {
+        setState(() {
+          Loading = false;
+        });
+      }
     }
-    else{
-      setState(() {Loading = false;});
-    }
   }
-
-}
-
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-        body:Stack(
+      body: Stack(
         children: [
           ScreenBackground(context),
-          Container(
-            padding: EdgeInsets.all(30),
-            child:Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Join With US",style: Head1Text(colorDarkBlue),),
-                SizedBox(height:2,),
-                TextFormField(decoration: AppInputDecoration("Email Address"),),
-                SizedBox(height: 2,),
-                TextFormField(decoration: AppInputDecoration("First Name"),),
-                SizedBox(height: 2,),
-                TextFormField(decoration: AppInputDecoration("Last Name"),),
-                SizedBox(height: 2,),
-                TextFormField(decoration: AppInputDecoration("Mobile"),),
-                SizedBox(height: 2,),
-                TextFormField(decoration: AppInputDecoration("Password"),),
-                   SizedBox(height: 2,),
-                TextFormField(decoration: AppInputDecoration("Confirm Password"),),
-                SizedBox(height: 2,),
-                Container(
-                    child:ElevatedButton(
-                      style: AppButtonStyle(),
-                      child:SuccessButtonChild('Registration'),
-                      onPressed: (){
-
-                      },
+          Center( // Center all items
+            child: SingleChildScrollView(
+              child: Loading
+                  ? Center(child: CircularProgressIndicator())
+                  : Container(
+                      margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
+                      padding: EdgeInsets.all(30),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center, // Center children horizontally
+                        children: [
+                          Text("Join With US", style: Head1Text(colorDarkBlue)),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            decoration: AppInputDecoration("Email Address"),
+                            onChanged: (value) => InputOnChange("email", value),
+                          ),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            decoration: AppInputDecoration("First Name"),
+                            onChanged: (value) => InputOnChange("firstName", value),
+                          ),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            decoration: AppInputDecoration("Last Name"),
+                            onChanged: (value) => InputOnChange("lastName", value),
+                          ),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            decoration: AppInputDecoration("Mobile"),
+                            onChanged: (value) => InputOnChange("mobile", value),
+                          ),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            obscureText: true,
+                            decoration: AppInputDecoration("Password"),
+                            onChanged: (value) => InputOnChange("password", value),
+                          ),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            obscureText: true,
+                            decoration: AppInputDecoration("Confirm Password"),
+                            onChanged: (value) => InputOnChange("cpassword", value),
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            child: ElevatedButton(
+                              style: AppButtonStyle(),
+                              child: SuccessButtonChild('Registration'),
+                              onPressed: () {
+                                FormOnSubmit();
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                )
-              ],
+                    ),
             ),
           ),
         ],
-        ),
+      ),
     );
   }
 }
