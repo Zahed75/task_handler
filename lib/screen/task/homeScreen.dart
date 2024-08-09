@@ -12,8 +12,11 @@ class homeScreen extends StatefulWidget{
 class _homeScreenState extends State<homeScreen>{
   @override
   Widget build(BuildContext context) {
-   return Container(
-      child: Text("Hello"),
+   return Scaffold(
+    appBar: AppBar(),
+    body:Center(
+      child:Text("Dashboard")
+    )
    );
    
   }
