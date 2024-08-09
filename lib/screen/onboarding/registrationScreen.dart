@@ -10,6 +10,7 @@ class registrationScreen extends StatefulWidget {
 }
 
 class _registrationScreen extends State<registrationScreen> {
+  
   Map<String, String> FormValues = {
     "email": "",
     "firstName": "",
@@ -63,9 +64,8 @@ class _registrationScreen extends State<registrationScreen> {
           ScreenBackground(context),
           Center( // Center all items
             child: SingleChildScrollView(
-              child: Loading
-                  ? Center(child: CircularProgressIndicator())
-                  : Container(
+              child: Loading? Center(child: CircularProgressIndicator()): 
+                  Container(
                       margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
                       padding: EdgeInsets.all(30),
                       child: Column(

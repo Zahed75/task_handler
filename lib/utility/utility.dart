@@ -17,6 +17,21 @@ Future<void> WriteUserData(UserData) async {
 
 
 
+// Email Store
+
+Future<void> WriteEmailVerification(Email)async{
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('EmailVerification',Email);
+}
+
+
+// OTP Store
+
+Future<void> WriteOTPVerification(OTP)async{
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('OTPVerification', OTP);
+}
+
 
 // Read user data
 Future<String?> ReadUserData(Key) async {
@@ -24,5 +39,3 @@ Future<String?> ReadUserData(Key) async {
   String? mydata= await prefs.getString(Key);
   return mydata;
 }
-
-

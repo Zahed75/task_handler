@@ -53,47 +53,48 @@ Future<bool> RegistrationRequest(FormValues) async{
 }
 
 
-
-Future<bool> VerifyEmailRequest(Email) async {
-
-  var URL = Uri.parse("${BaseURL}/${Email}");
-  var response = await http.get(URL,headers:RequestHeader);
-  var ResultCode = response.statusCode;
-  var ResultBody = json.decode(response.body);
+Future<bool> VerifyEmailRequest(Email) async{
+  var URL=Uri.parse("${BaseURL}/RecoverVerifyEmail/${Email}");
+  var response= await http.get(URL,headers:RequestHeader);
+  var ResultCode=response.statusCode;
+  var ResultBody=json.decode(response.body);
   if(ResultCode==200 && ResultBody['status']=="success"){
-
+    await WriteEmailVerification(Email);
     SuccessToast("Request Success");
-    
-    return true;
-
-  }else{
-    ErrorToast("Request fail ! try again");
-    return false;
-  }
-
-}
-
-
-Future<bool> VerifyOTPRequest(Email,OTP) async{
-  var URL = Uri.parse("${BaseURL}/{Email}/{OTP}");
-
-  var response = await http.get(URL,headers:RequestHeader);
-  var ResultCode = response.statusCode;
-  var ResultBody = json.decode(response.body);
-
-  if(ResultCode == 200 && ResultBody['status']=="success"){
-    SuccessToast("Request Sucess");
-
-  await  WriteUserData(ResultBody);
     return true;
   }
   else{
-    ErrorToast("Request Fail");{
-      return false;
-    }
+    ErrorToast("Request fail ! try again");
+    return false;
   }
 }
 
+
+
+
+
+// Email OTP Verfication
+Future<bool> VerifyOTPRequest(Email,OTP) async{
+  var URL=Uri.parse("${BaseURL}/RecoverVerifyOTP/${Email}/${OTP}");
+  var response= await  http.get(URL,headers:RequestHeader);
+  var ResultCode=response.statusCode;
+  var ResultBody=json.decode(response.body);
+  if(ResultCode==200 && ResultBody['status']=="success"){
+    await WriteOTPVerification(OTP);
+    SuccessToast("Request Success");
+    return true;
+  }
+  else{
+    ErrorToast("Request fail ! try again");
+    return false;
+  }
+}
+
+
+
+
+
+// setPassword
 
 Future<bool> SetPasswordRequest(FormValues) async {
   var URL = Uri.parse("${BaseURL}/RecoverResetPass");
