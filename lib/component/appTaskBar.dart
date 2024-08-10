@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_handler/style/style.dart';
 import 'package:task_handler/utility/utility.dart';
 
-AppBar TaskAppBar() {
+AppBar TaskAppBar(context) {
   return AppBar(
     backgroundColor: colorOrange,
     flexibleSpace: Container(
@@ -36,8 +36,9 @@ AppBar TaskAppBar() {
       }, 
       icon: Icon(Icons.add_circle_outline,color:Colors.white),   
       ),
-      IconButton(onPressed: (){
-
+      IconButton(onPressed: ()async{
+          await RemoveToken();
+          Navigator.pushNamedAndRemoveUntil(context, "/login", (route)=>false);
       }, 
       icon: Icon(Icons.output,color: Colors.white,)
       )

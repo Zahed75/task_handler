@@ -3,6 +3,8 @@ import 'package:task_handler/api/apiClient.dart';
 import 'package:task_handler/component/appBottomNav.dart';
 import 'package:task_handler/component/taskList.dart';
 
+
+
 class progressTaskList extends StatefulWidget{
 
   const progressTaskList({Key? key}):super(key:key);
@@ -12,47 +14,42 @@ class progressTaskList extends StatefulWidget{
   
 }
 
-class _progressTaskList extends State<progressTaskList>{
 
+class _progressTaskList extends State<progressTaskList> {
+  List Taskitems = [];
+  bool Loading = true; // Set Loading to true initially
 
-  List Taskitems =[];
-  bool Loading = false;
-
-  
-  @override 
-  initState(){
-    callData();
+  @override
+  void initState() {
     super.initState();
+    callData(); // Fetch the data when the widget is initialized
   }
 
-
-  callData()async{
-    var data = await TaskListRequest("Progress");
-    setState(() {Loading =false; });
-    Taskitems = data;
-  }
-
-
-
-
-  int bottomtabIndex =0;
-  onItemTapped(index){
+  callData() async {
+    var data = await TaskListRequest("New");
+    if (!mounted) return; // Check if the widget is still mounted
     setState(() {
-      bottomtabIndex=index;
+      Loading = false; // Set Loading to false after data is fetched
+      Taskitems = data; // Update the Taskitems list
     });
   }
 
-
+  int bottomtabIndex = 0;
+  onItemTapped(index) {
+    setState(() {
+      bottomtabIndex = index;
+    });
+  }
 
   @override
-    Widget build(BuildContext context) {
-      
-      return Loading?(Center(child: CircularProgressIndicator(),)):RefreshIndicator(
-        
-        onRefresh:()async{
-          callData();
-        }, 
-        child:TaskList(Taskitems),
-        );
+  Widget build(BuildContext context) {
+    return Loading
+        ? Center(child: CircularProgressIndicator())
+        : RefreshIndicator(
+            onRefresh: () async {
+              callData();
+            },
+            child: TaskList(Taskitems),
+          );
   }
 }

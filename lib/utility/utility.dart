@@ -43,3 +43,9 @@ ShowBase64Image(Base64String){
 }
 
 
+
+Future<bool>RemoveToken() async{
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('token');
+  return true;
+}
