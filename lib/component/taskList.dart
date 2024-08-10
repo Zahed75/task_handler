@@ -7,7 +7,7 @@ ListView TaskList(Taskitems){
       itemCount: Taskitems.length,
       itemBuilder: (context,index){
         return Card(
-            child:ItemSizedBox(
+            child:ItemSizeBox(
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
