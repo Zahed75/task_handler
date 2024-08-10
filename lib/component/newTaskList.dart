@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:task_handler/api/apiClient.dart';
+import 'package:task_handler/component/taskList.dart';
 import 'package:task_handler/utility/utility.dart'; // Assuming your storage functions are here
 
 class newTaskList extends StatefulWidget {
@@ -9,52 +10,32 @@ class newTaskList extends StatefulWidget {
 }
 
 class _newTaskList extends State<newTaskList> {
-  List Taskitems =[];
-  bool Loading = false;
+  List Taskitems = [];
+  bool Loading = true; // Set Loading to true initially
 
-  
-  @override 
-  initState(){
-    callData();
+  @override
+  void initState() {
     super.initState();
+    callData(); // Fetch the data when the widget is initialized
   }
 
-
-  callData()async{
+  callData() async {
     var data = await TaskListRequest("New");
-    setState(() {Loading =false; });
-    Taskitems = data;
+    setState(() {
+      Loading = false; // Set Loading to false after data is fetched
+      Taskitems = data; // Update the Taskitems list
+    });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("New List"), // Display the email or fallback message
-      ),
-    );
+      
+      return Loading?(Center(child: CircularProgressIndicator(),)):RefreshIndicator(
+        
+        onRefresh:()async{
+          callData();
+        }, 
+        child:TaskList(Taskitems),
+        );
   }
 }
-
-
-
-
-
-
-  // String email = "";
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   CallUserData(); // Call the function here to load the user data
-  // }
-
-  // CallUserData() async {
-  //   String? a = await ReadUserData("email");
-  //   setState(() {
-  //     email = a ?? "No Email Found";
-  //   });
-  // }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_handler/api/apiClient.dart';
 import 'package:task_handler/component/appBottomNav.dart';
+import 'package:task_handler/component/taskList.dart';
 
 class createTaskList extends StatefulWidget{
 
@@ -43,14 +44,14 @@ class _createTaskList extends State<createTaskList>{
 
 
   @override
-  Widget build(BuildContext context) {
-   return Scaffold(
-    appBar: AppBar(),
-    body:Center(
-      child: Text("Create Task List"),
-    ),
-   
-   );
-   
+    Widget build(BuildContext context) {
+      
+      return Loading?(Center(child: CircularProgressIndicator(),)):RefreshIndicator(
+        
+        onRefresh:()async{
+          callData();
+        }, 
+        child:TaskList(Taskitems),
+        );
   }
 }

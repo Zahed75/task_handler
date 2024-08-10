@@ -187,3 +187,16 @@ PinTheme AppOTPStyle(){
   activeFillColor: Colors.white
   );
 }
+
+
+// cardList View Design
+
+SizedBox ItemSizedBox(child){
+  return SizedBox(
+    width:double.infinity,
+    child: Container(
+      padding:EdgeInsets.all(10),
+      child:child,
+    ),
+  );
+}
