@@ -21,7 +21,7 @@ BottomNavigationBar appBottomNav(currentIndex, onItemTapped){
         label:"Cancelled"
         ),
     ],
-    selectedItemColor: colorGreen,
+    selectedItemColor: colorOrange,
     unselectedItemColor: colorLightGray,
     currentIndex: currentIndex,
     showSelectedLabels: true,
