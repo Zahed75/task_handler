@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_handler/api/apiClient.dart';
 import 'package:task_handler/component/appBottomNav.dart';
 
 class completedTaskList extends StatefulWidget{
@@ -11,6 +12,25 @@ class completedTaskList extends StatefulWidget{
 }
 
 class _completedTaskList extends State<completedTaskList>{
+
+
+
+  List Taskitems =[];
+  bool Loading = false;
+
+  
+  @override 
+  initState(){
+    callData();
+    super.initState();
+  }
+
+
+  callData()async{
+    var data = await TaskListRequest("Completed");
+    setState(() {Loading =false; });
+    Taskitems = data;
+  }
 
 
   int bottomtabIndex =0;

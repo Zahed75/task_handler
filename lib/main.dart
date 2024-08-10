@@ -43,7 +43,7 @@ MyApp(this.FirstRoute);
         '/emailVerification':(conext)=>emailVerificationScreen(),
         '/pinVerification':(conext)=>pinVerificationScreen(),
         '/setPassword':(conext)=>setPasswordScreen(),
-        '/newTaskList':(context)=>newTaskListScreen(),
+        '/newTaskList':(context)=>newTaskList(),
 
       },
     );

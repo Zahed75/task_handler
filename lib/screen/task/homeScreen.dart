@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:task_handler/component/appBottomNav.dart';
+import 'package:task_handler/component/cancelTaskList.dart';
+import 'package:task_handler/component/completedTask.dart';
+import 'package:task_handler/component/newTaskList.dart';
+import 'package:task_handler/component/progressTaskList.dart';
 
 class homeScreen extends StatefulWidget{
 
@@ -13,20 +17,27 @@ class homeScreen extends StatefulWidget{
 class _homeScreenState extends State<homeScreen>{
 
 
-  int bottomtabIndex =0;
+  int TabIndex =0;
   onItemTapped(index){
     setState(() {
-      bottomtabIndex=index;
+      TabIndex=index;
     });
   }
+
+  final widgetOptions=[
+    newTaskList(),
+    progressTaskList(),
+    completedTaskList(),
+    cancelTaskList()
+  ];
 
 
   @override
   Widget build(BuildContext context) {
    return Scaffold(
     appBar: AppBar(),
-    body:Center(),
-    bottomNavigationBar: appBottomNav(bottomtabIndex, onItemTapped),
+    body:widgetOptions.elementAt(TabIndex),
+    bottomNavigationBar: appBottomNav(TabIndex, onItemTapped),
    );
    
   }

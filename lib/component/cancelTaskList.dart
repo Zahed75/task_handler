@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_handler/api/apiClient.dart';
 import 'package:task_handler/component/appBottomNav.dart';
 
 class cancelTaskList extends StatefulWidget{
@@ -11,6 +12,26 @@ class cancelTaskList extends StatefulWidget{
 }
 
 class _cancelTaskList extends State<cancelTaskList>{
+
+
+    List Taskitems =[];
+  bool Loading = false;
+
+  
+  @override 
+  initState(){
+    callData();
+    super.initState();
+  }
+
+
+  callData()async{
+    var data = await TaskListRequest("Cancelled");
+    setState(() {Loading =false; });
+    Taskitems = data;
+  }
+
+
 
 
   int bottomtabIndex =0;

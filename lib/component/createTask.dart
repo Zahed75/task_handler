@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_handler/api/apiClient.dart';
 import 'package:task_handler/component/appBottomNav.dart';
 
 class createTaskList extends StatefulWidget{
@@ -19,6 +20,26 @@ class _createTaskList extends State<createTaskList>{
       bottomtabIndex=index;
     });
   }
+
+
+  List Taskitems =[];
+  bool Loading = false;
+
+  
+  @override 
+  initState(){
+    callData();
+    super.initState();
+  }
+
+
+  callData()async{
+    var data = await TaskListRequest("New");
+    setState(() {Loading =false; });
+    Taskitems = data;
+  }
+
+
 
 
   @override

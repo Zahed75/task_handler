@@ -5,114 +5,115 @@ import 'package:task_handler/utility/utility.dart';
 
 var BaseURL = "https://task.teamrabbil.com/api/v1";
 
-var RequestHeader={"Content-Type":"application/json"};
+var RequestHeader = {"Content-Type": "application/json"};
 
-
-
-
-
-Future<bool> LoginRequest(FormValues) async{
-  var URL=Uri.parse("${BaseURL}/login");
-  var PostBody=json.encode(FormValues);
-  var response= await http.post(URL,headers:RequestHeader,body: PostBody);
-  var ResultCode=response.statusCode;
-  var ResultBody=json.decode(response.body);
-  if(ResultCode==200 && ResultBody['status']=="success"){
+Future<bool> LoginRequest(FormValues) async {
+  var URL = Uri.parse("${BaseURL}/login");
+  var PostBody = json.encode(FormValues);
+  var response = await http.post(URL, headers: RequestHeader, body: PostBody);
+  var ResultCode = response.statusCode;
+  var ResultBody = json.decode(response.body);
+  if (ResultCode == 200 && ResultBody['status'] == "success") {
     SuccessToast("Request Success");
     await WriteUserData(ResultBody);
     return true;
-  }
-  else{
+  } else {
     ErrorToast("Request fail ! try again");
     return false;
   }
 }
 
-
-
-
-
-Future<bool> RegistrationRequest(FormValues) async{
-
+Future<bool> RegistrationRequest(FormValues) async {
   var URL = Uri.parse("${BaseURL}/registration");
   var PostBody = json.encode(FormValues);
-  var response = await http.post(URL,headers:RequestHeader,body:PostBody);
-  var ResultCode=response.statusCode;
+  var response = await http.post(URL, headers: RequestHeader, body: PostBody);
+  var ResultCode = response.statusCode;
 
-  var ResultBody=json.decode(response.body);
+  var ResultBody = json.decode(response.body);
 
-  if(ResultCode==200 && ResultBody['status']=="success"){
+  if (ResultCode == 200 && ResultBody['status'] == "success") {
     SuccessToast("Request Success");
 
     return true;
-  }
-  else{
+  } else {
     ErrorToast("Request fail ! try again");
     return false;
   }
 }
 
-
-Future<bool> VerifyEmailRequest(Email) async{
-  var URL=Uri.parse("${BaseURL}/RecoverVerifyEmail/${Email}");
-  var response= await http.get(URL,headers:RequestHeader);
-  var ResultCode=response.statusCode;
-  var ResultBody=json.decode(response.body);
-  if(ResultCode==200 && ResultBody['status']=="success"){
+Future<bool> VerifyEmailRequest(Email) async {
+  var URL = Uri.parse("${BaseURL}/RecoverVerifyEmail/${Email}");
+  var response = await http.get(URL, headers: RequestHeader);
+  var ResultCode = response.statusCode;
+  var ResultBody = json.decode(response.body);
+  if (ResultCode == 200 && ResultBody['status'] == "success") {
     await WriteEmailVerification(Email);
     SuccessToast("Request Success");
     return true;
-  }
-  else{
+  } else {
     ErrorToast("Request fail ! try again");
     return false;
   }
 }
 
-
-
-
-
 // Email OTP Verfication
-Future<bool> VerifyOTPRequest(Email,OTP) async{
-  var URL=Uri.parse("${BaseURL}/RecoverVerifyOTP/${Email}/${OTP}");
-  var response= await  http.get(URL,headers:RequestHeader);
-  var ResultCode=response.statusCode;
-  var ResultBody=json.decode(response.body);
-  if(ResultCode==200 && ResultBody['status']=="success"){
+Future<bool> VerifyOTPRequest(Email, OTP) async {
+  var URL = Uri.parse("${BaseURL}/RecoverVerifyOTP/${Email}/${OTP}");
+  var response = await http.get(URL, headers: RequestHeader);
+  var ResultCode = response.statusCode;
+  var ResultBody = json.decode(response.body);
+  if (ResultCode == 200 && ResultBody['status'] == "success") {
     await WriteOTPVerification(OTP);
     SuccessToast("Request Success");
     return true;
-  }
-  else{
+  } else {
     ErrorToast("Request fail ! try again");
     return false;
   }
 }
 
-
-
-
-
 // setPassword
 
-Future<bool> SetPasswordRequest(FormValues) async{
+Future<bool> SetPasswordRequest(FormValues) async {
+  var URL = Uri.parse("${BaseURL}/RecoverResetPass");
+  var PostBody = json.encode(FormValues);
 
-  var URL=Uri.parse("${BaseURL}/RecoverResetPass");
-  var PostBody=json.encode(FormValues);
+  var response = await http.post(URL, headers: RequestHeader, body: PostBody);
 
-  var response= await  http.post(URL,headers:RequestHeader,body: PostBody);
+  var ResultCode = response.statusCode;
+  var ResultBody = json.decode(response.body);
 
-  var ResultCode=response.statusCode;
-  var ResultBody=json.decode(response.body);
-
-
-  if(ResultCode==200 && ResultBody['status']=="success"){
+  if (ResultCode == 200 && ResultBody['status'] == "success") {
     SuccessToast("Request Success");
     return true;
-  }
-  else{
+  } else {
     ErrorToast("Request fail ! try again");
     return false;
+  }
+}
+
+// TaskStatus API Request
+
+Future<List> TaskListRequest(status) async {
+  var URL = Uri.parse("${BaseURL}/listTaskByStatus/${status}");
+
+  String? token = await ReadUserData("token");
+
+  var RequestHeaderWithToken = {
+    "Content-Type": "application/json",
+    "token": '$token'
+  };
+
+  var response = await http.get(URL, headers: RequestHeaderWithToken);
+  var ResultCode = response.statusCode;
+  var ResultBody = json.decode(response.body);
+
+  if(ResultCode == 200 && ResultBody['status'] == "success") {
+    SuccessToast("Request Success");
+    return ResultBody['data'];
+  }
+  else{
+    ErrorToast("Request Failed");
+    return [];
   }
 }
