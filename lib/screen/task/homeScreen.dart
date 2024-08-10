@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_handler/component/appBottomNav.dart';
 
 class homeScreen extends StatefulWidget{
 
@@ -10,13 +11,22 @@ class homeScreen extends StatefulWidget{
 }
 
 class _homeScreenState extends State<homeScreen>{
+
+
+  int bottomtabIndex =0;
+  onItemTapped(index){
+    setState(() {
+      bottomtabIndex=index;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
    return Scaffold(
     appBar: AppBar(),
-    body:Center(
-      child:Text("Dashboard")
-    )
+    body:Center(),
+    bottomNavigationBar: appBottomNav(bottomtabIndex, onItemTapped),
    );
    
   }

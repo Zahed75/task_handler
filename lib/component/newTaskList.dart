@@ -27,7 +27,7 @@ class _newTaskListScreen extends State<newTaskListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(email), // Display the email or fallback message
+        child: Text("New List"), // Display the email or fallback message
       ),
     );
   }
