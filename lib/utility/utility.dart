@@ -1,6 +1,10 @@
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+
+String defaultProfilePic = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Fvector-art%2F4819327-male-avatar-profile-icon-of-smiling-caucasian-man&psig=AOvVaw0stc7idrDbPL_0-eOz6uwq&ust=1723705241520000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMD3w8n084cDFQAAAAAdAAAAABAJ";
 
 // Store user data temporarily
 Future<void> WriteUserData(UserData) async {

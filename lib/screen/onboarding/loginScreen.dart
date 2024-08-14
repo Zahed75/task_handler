@@ -33,7 +33,7 @@ class _loginScreenState extends State<loginScreen> {
       setState(() {Loading=true;});
       bool res=await LoginRequest(FormValues);
       if(res==true){
-       Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
+       Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
       }
       else{
         setState(() {Loading=false;});
