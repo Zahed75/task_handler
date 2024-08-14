@@ -39,6 +39,24 @@ class _homeScreenState extends State<homeScreen>{
   ];
 
 
+  ReadProfileData()async{
+   String? email = await ReadUserData("email");
+   String? firstName = await ReadUserData("firstName");
+   String? lastName = await ReadUserData("lastName");
+   String? photo = await ReadUserData("photo");
+
+   setState(() {
+     ProfileData ={"email":"$email","firstName":"$firstName","lastName":"$lastName","photo":"$photo"};
+   });
+
+  }
+@override
+void initState(){
+  ReadProfileData();
+  super.initState();
+}
+
+
   @override
   Widget build(BuildContext context) {
    return Scaffold(

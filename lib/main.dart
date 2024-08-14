@@ -7,6 +7,7 @@ import 'package:task_handler/screen/onboarding/registrationScreen.dart';
 import 'package:task_handler/screen/onboarding/setPasswordScreen.dart';
 import 'package:task_handler/screen/task/homeScreen.dart';
 import 'package:task_handler/component/newTaskList.dart';
+import 'package:task_handler/screen/task/taskCreateScreen.dart';
 import 'package:task_handler/utility/utility.dart';
 
 
@@ -44,6 +45,7 @@ MyApp(this.FirstRoute);
         '/pinVerification':(conext)=>pinVerificationScreen(),
         '/setPassword':(conext)=>setPasswordScreen(),
         '/newTaskList':(context)=>newTaskList(),
+        '/taskCreate':(context)=>TaskCreateScreen(),
 
       },
     );

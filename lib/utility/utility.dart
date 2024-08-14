@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-
+import 'dart:convert'; // For base64 decoding// For Uint8List
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,8 +18,9 @@ Future<void> WriteUserData(UserData) async {
 }
 
 
-// Email Store
 
+
+// Email Store
 Future<void> WriteEmailVerification(Email) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('EmailVerification', Email);
@@ -42,16 +43,23 @@ Future<String?> ReadUserData(Key) async {
 
 // Base64 image convert
 
-ShowBase64Image(Base64String){
- UriData? data= Uri.parse(Base64String).data;
- Uint8List MyImage= data!.contentAsBytes();
- return MyImage;
-}
 
+// Convert Base64 string to Uint8List
+
+Uint8List? ShowBase64Image(String base64String) {
+  try {
+    // Remove any Base64 data URL prefix (e.g., "data:image/png;base64,") if present
+    final base64Image = base64String.split(',').last;
+    return base64Decode(base64Image);
+  } catch (e) {
+    print("Error decoding base64 image: $e");
+    return null;
+  }
+}
 
 
 Future<bool>RemoveToken() async{
   final prefs = await SharedPreferences.getInstance();
-  await prefs.remove('token');
+  await prefs.clear();
   return true;
 }
