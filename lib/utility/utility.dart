@@ -13,6 +13,7 @@ Future<void> WriteUserData(UserData) async {
   await prefs.setString('photo', UserData['data']['photo']);
 }
 
+
 // Email Store
 
 Future<void> WriteEmailVerification(Email) async {
@@ -33,6 +34,7 @@ Future<String?> ReadUserData(Key) async {
   String? mydata = await prefs.getString(Key);
   return mydata;
 }
+
 
 // Base64 image convert
 

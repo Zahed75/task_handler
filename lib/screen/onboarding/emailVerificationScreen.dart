@@ -5,11 +5,15 @@ import 'package:task_handler/api/apiClient.dart';
 import 'package:task_handler/style/style.dart';
 
 
+
 class emailVerificationScreen extends StatefulWidget {
   const emailVerificationScreen({Key? key}) : super(key: key);
   @override
   State<emailVerificationScreen> createState() => _emailVerificationScreenState();
 }
+
+
+
 
 class _emailVerificationScreenState extends State<emailVerificationScreen> {
 
@@ -28,7 +32,7 @@ class _emailVerificationScreenState extends State<emailVerificationScreen> {
     }
     else{
       setState((){Loading=true;});
-      bool res=await VerifyEmailRequest(FormValues['email']);
+      bool res=await VerifyEmailRequest(FormValues['email']!);
       if(res==true){
         Navigator.pushNamed(context, "/pinVerification");
       }
@@ -37,6 +41,8 @@ class _emailVerificationScreenState extends State<emailVerificationScreen> {
       }
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -5,44 +5,41 @@ import 'package:task_handler/api/apiClient.dart';
 import 'package:task_handler/style/style.dart';
 import '../../style/style.dart';
 
+
 class loginScreen extends StatefulWidget {
+  const loginScreen({Key? key}) : super(key: key);
   @override
-  State<loginScreen> createState() => _loginScreen();
+  State<loginScreen> createState() => _loginScreenState();
 }
 
-class _loginScreen extends State<loginScreen> {
-  Map<String, String> formValues = {"email": "", "password": ""};
-  bool loading = false;
+class _loginScreenState extends State<loginScreen> {
+  Map<String,String> FormValues={"email":"", "password":""};
+  bool Loading=false;
 
-  void inputOnChange(String mapKey, String textValue) {
+  InputOnChange(MapKey, Textvalue){
     setState(() {
-      formValues.update(mapKey, (value) => textValue);
+      FormValues.update(MapKey, (value) => Textvalue);
     });
   }
-
-  Future<void> formOnSubmit() async {
-    if (formValues['email']!.isEmpty) {
-      ErrorToast("Email is required");
-      return;
-    } else if (formValues['password']!.isEmpty) {
-      ErrorToast("Password is required");
-      return;
+  
+  FormOnSubmit() async{
+    if(FormValues['email']!.length==0){
+      ErrorToast('Email Required !');
     }
-
-    setState(() {
-      loading = true; // Show loading indicator
-    });
-
-    bool res = await LoginRequest(formValues);
-    setState(() {
-      loading = false; // Hide loading indicator
-    });
-
-    if (res) {
-      Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+    else if(FormValues['password']!.length==0){
+      ErrorToast('Password Required !');
+    }
+    else{
+      setState(() {Loading=true;});
+      bool res=await LoginRequest(FormValues);
+      if(res==true){
+       Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
+      }
+      else{
+        setState(() {Loading=false;});
+      }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,82 +49,86 @@ class _loginScreen extends State<loginScreen> {
           ScreenBackground(context),
           Container(
             alignment: Alignment.center,
-            child: loading? Center(child: CircularProgressIndicator()): SingleChildScrollView(
-                    padding: EdgeInsets.all(30),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Get Started With BEL", style: Head1Text(colorDarkBlue)),
-                        SizedBox(height: 1),
-                        Text("Track Task More fast", style: Head6Text(colorLightGray)),
-                        SizedBox(height: 1),
-                        TextFormField(
-                          onChanged: (textValue) {
-                            inputOnChange("email", textValue);
-                          },
-                          decoration: AppInputDecoration("Email Address"),
-                        ),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          obscureText: true, // Hide password text
-                          onChanged: (textValue) {
-                            inputOnChange("password", textValue);
-                          },
-                          decoration: AppInputDecoration("Password"),
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          child: ElevatedButton(
-                            style: AppButtonStyle(),
-                            child: SuccessButtonChild('Login'),
-                            onPressed: () {
-                              formOnSubmit();
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 2,),
-                        Container(
-                          alignment: Alignment.center,
-                           child:Column(
-                            children: [
-                              SizedBox(height: 20,),
-                              InkWell(
-                                onTap: (){
-                                  Navigator.pushNamed(context,"/emailVerification");
-                                },
-                                child:Text("ForgetPassword",style:Head7Text(colorLightGray))
-                              )
-                            ],
+            child: Loading?(Center(child: CircularProgressIndicator())):(SingleChildScrollView(
+             padding: EdgeInsets.all(30),
+             child: Column(
+               mainAxisAlignment: MainAxisAlignment.center,
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Text("Get Started With", style: Head1Text(colorDarkBlue)),
+                 SizedBox(height: 1),
+                 Text("Learn with rabbil hasan", style: Head6Text(colorLightGray)),
+                 SizedBox(height: 20),
+
+                 TextFormField(
+                   onChanged: (Textvalue){
+                     InputOnChange("email",Textvalue);
+                   },
+                   decoration: AppInputDecoration("Email Address"),
+                 ),
+
+                 SizedBox(height: 20),
+
+                 TextFormField(
+                   onChanged: (Textvalue){
+                     InputOnChange("password",Textvalue);
+                   },
+                   decoration: AppInputDecoration("Password"),
+                 ),
+
+                 SizedBox(height: 20),
+
+
+                 Container(child: ElevatedButton(
+                   style: AppButtonStyle(),
+                   child: SuccessButtonChild('Login'),
+                   onPressed: (){
+                     FormOnSubmit();
+                   },
+                 ),),
+
+                 SizedBox(height: 20),
+                 
+
+                 Container(
+                   alignment: Alignment.center,
+                   child: Column(
+                     children: [
+                       SizedBox(height: 20),
+                       InkWell(
+                           onTap: (){
+                             Navigator.pushNamed(context, "/emailVerification");
+                           },
+                           child: Text('Forget Password?',style: Head7Text(colorLightGray),
                            )
-                        ),
-                        SizedBox(height: 3,),
-                        Container(
-                          alignment: Alignment.center,
-                          child: Column(
-                            children: [
-                              SizedBox(height: 20,),
-                              InkWell(
-                                onTap: (){
-                                  Navigator.pushNamed(context, "/registration");
-                                },
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("Don't Have an Account? ",style:Head7Text(colorDarkBlue)),
-                                    Text("SignUp",style: Head7Text(colorGreen),)
-                                  ],
-                                )
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-          ),
+                       ),
+
+                       SizedBox(height: 15),
+
+                       InkWell(
+                           onTap: (){
+                             Navigator.pushNamed(context, "/registration");
+                           },
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             children: [
+                               Text("Don't have a account? ",style: Head7Text(colorDarkBlue)),
+                               Text("Sign Up",style: Head7Text(colorGreen),)
+                             ],
+                           )
+                       )
+                     ],
+                   ),
+                 )
+                 
+                 
+               ],
+             ),
+           )),
+          )
         ],
       ),
     );
   }
 }
+
