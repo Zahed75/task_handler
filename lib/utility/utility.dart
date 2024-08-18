@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-String defaultProfilePic = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Fvector-art%2F4819327-male-avatar-profile-icon-of-smiling-caucasian-man&psig=AOvVaw0stc7idrDbPL_0-eOz6uwq&ust=1723705241520000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMD3w8n084cDFQAAAAAdAAAAABAJ";
+
+// String defaultProfilePic="https://drive.google.com/file/d/1iA534h7YVE_a8R7aaJqM762t5fbwZQCV/view?usp=drive_link";
+
 
 // Store user data temporarily
 Future<void> WriteUserData(UserData) async {
@@ -48,14 +50,24 @@ Future<String?> ReadUserData(Key) async {
 
 Uint8List? ShowBase64Image(String base64String) {
   try {
-    // Remove any Base64 data URL prefix (e.g., "data:image/png;base64,") if present
-    final base64Image = base64String.split(',').last;
-    return base64Decode(base64Image);
+    // Check if the string is missing the data URI prefix
+    if (!base64String.startsWith('data:')) {
+      base64String = 'data:image/png;base64,' + base64String;
+    }
+
+    UriData? data = Uri.parse(base64String).data;
+    if (data == null) {
+      print("Error: The provided string is not a valid data URI.");
+      return null; // Return null or a placeholder image
+    }
+    return data.contentAsBytes();
   } catch (e) {
-    print("Error decoding base64 image: $e");
-    return null;
+    print("Exception occurred: $e");
+    return null; // Return null or a placeholder image
   }
 }
+
+
 
 
 Future<bool>RemoveToken() async{

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_handler/api/apiClient.dart';
+import 'package:task_handler/component/taskList.dart';
 import 'package:task_handler/screen/onboarding/splashScreen.dart';
 import 'package:task_handler/screen/onboarding/emailVerificationScreen.dart';
 import 'package:task_handler/screen/onboarding/loginScreen.dart';
@@ -44,8 +46,8 @@ MyApp(this.FirstRoute);
         '/emailVerification':(conext)=>emailVerificationScreen(),
         '/pinVerification':(conext)=>pinVerificationScreen(),
         '/setPassword':(conext)=>setPasswordScreen(),
-        '/newTaskList':(context)=>newTaskList(),
-        '/taskCreate':(context)=>TaskCreateScreen(),
+        '/taskCreate': (context) => taskCreateScreen(), // Corrected to return a widget
+        '/newTaskList': (context) => newTaskList(), // Ensure this is defined correctly
 
       },
     );

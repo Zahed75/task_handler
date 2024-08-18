@@ -1,25 +1,34 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:task_handler/style/style.dart';
 import 'package:task_handler/utility/utility.dart';
 
+AppBar TaskAppBar(BuildContext context, Map<String, String> profileData) {
+  // Get the Base64 image string
+  String? photoBase64 = profileData['photo'];
 
+  // Convert Base64 to Uint8List
+  Uint8List? imageBytes = ShowBase64Image(photoBase64 ?? '');
 
-AppBar TaskAppBar(BuildContext context, Map<String, dynamic> ProfileData) {
   return AppBar(
-    backgroundColor: colorOrange,
+    backgroundColor: colorGreen,
     flexibleSpace: Container(
-      margin: EdgeInsets.fromLTRB(8, 40, 10, 0),
+      margin: EdgeInsets.fromLTRB(10, 40, 10, 0),
       child: Row(
         children: [
           CircleAvatar(
             backgroundColor: Colors.transparent,
             radius: 24,
             child: ClipOval(
-              child: ProfileData['photo'] != null
-                  ? Image.memory(ShowBase64Image(ProfileData['photo']) ?? Uint8List(0))
-                  : Icon(Icons.person, size: 48, color: Colors.grey), // Placeholder icon if photo is null
+              child: imageBytes != null
+                  ? Image.memory(
+                      imageBytes,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(Icons.person, size: 48, color: Colors.grey);
+                      },
+                    )
+                  : Icon(Icons.person, size: 48, color: Colors.grey),
             ),
           ),
           SizedBox(width: 10),
@@ -28,11 +37,11 @@ AppBar TaskAppBar(BuildContext context, Map<String, dynamic> ProfileData) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                ProfileData['firstName'] ?? 'Unknown',
-                style: Head6Text(colorWhite),
+                '${profileData['firstName']} ${profileData['lastName']}',
+                style: Head7Text(colorWhite),
               ),
               Text(
-                ProfileData['email'] ?? 'No Email',
+                profileData['email'] ?? '',
                 style: Head9Text(colorWhite),
               ),
             ],
@@ -45,14 +54,14 @@ AppBar TaskAppBar(BuildContext context, Map<String, dynamic> ProfileData) {
         onPressed: () {
           Navigator.pushNamed(context, "/taskCreate");
         },
-        icon: Icon(Icons.add_circle_outline, color: Colors.white),
+        icon: Icon(Icons.add_circle_outline),
       ),
       IconButton(
         onPressed: () async {
           await RemoveToken();
           Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
         },
-        icon: Icon(Icons.output, color: Colors.white),
+        icon: Icon(Icons.output),
       ),
     ],
   );

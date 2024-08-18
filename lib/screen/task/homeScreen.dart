@@ -7,63 +7,53 @@ import 'package:task_handler/component/newTaskList.dart';
 import 'package:task_handler/component/progressTaskList.dart';
 import 'package:task_handler/utility/utility.dart';
 
+class homeScreen extends StatefulWidget {
+  const homeScreen({Key? key}) : super(key: key);
 
-class homeScreen extends StatefulWidget{
-
-  const homeScreen({Key? key}):super(key:key);
-  
   @override
-  State<homeScreen> createState()=> _homeScreenState();
-  
+  State<homeScreen> createState() => _homeScreenState();
 }
 
-class _homeScreenState extends State<homeScreen>{
+class _homeScreenState extends State<homeScreen> {
+  int TabIndex = 0;
+  Map<String, String> ProfileData = {"email": "", "firstName": "", "lastName": "", "mobile": "", "photo": ""};
 
-
-  int TabIndex =0;
-  Map<String,String>ProfileData ={"email":"","firstName":"","lastName":"","mobile":"","photo":defaultProfilePic};
-
-
-
-  onItemTapped(index){
+  void onItemTapped(index) {
     setState(() {
-      TabIndex=index;
+      TabIndex = index;
     });
   }
 
-  final widgetOptions=[
+  final widgetOptions = [
     newTaskList(),
     progressTaskList(),
     completedTaskList(),
     cancelTaskList()
   ];
 
+  Future<void> ReadProfileData() async {
+    String? email = await ReadUserData("email");
+    String? firstName = await ReadUserData("firstName");
+    String? lastName = await ReadUserData("lastName");
+    String? photo = await ReadUserData("photo");
 
-  ReadProfileData()async{
-   String? email = await ReadUserData("email");
-   String? firstName = await ReadUserData("firstName");
-   String? lastName = await ReadUserData("lastName");
-   String? photo = await ReadUserData("photo");
-
-   setState(() {
-     ProfileData ={"email":"$email","firstName":"$firstName","lastName":"$lastName","photo":"$photo"};
-   });
-
+    setState(() {
+      ProfileData = {"email": "$email", "firstName": "$firstName", "lastName": "$lastName", "photo": "$photo"};
+    });
   }
-@override
-void initState(){
-  ReadProfileData();
-  super.initState();
-}
 
+  @override
+  void initState() {
+    ReadProfileData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-    appBar: TaskAppBar(context,ProfileData),
-    body:widgetOptions.elementAt(TabIndex),
-    bottomNavigationBar: appBottomNav(TabIndex, onItemTapped),
-   );
-   
+    return Scaffold(
+      appBar: TaskAppBar(context, ProfileData),
+      body: widgetOptions.elementAt(TabIndex),
+      bottomNavigationBar: appBottomNav(TabIndex, onItemTapped),
+    );
   }
 }
