@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_handler/style/style.dart';
 
 
-ListView TaskList(Taskitems){
+ListView TaskList(Taskitems, DeletedItem,StatusChange){
 
   return ListView.builder(
 
@@ -36,9 +36,14 @@ ListView TaskList(Taskitems){
                       Container(
                         child: Row(
                           children: [
-                           SizedBox(width: 50,height:30,child:ElevatedButton(onPressed:(){},child: Icon(Icons.edit_location_alt_outlined,size: 16),style:AppStatusButtonStyle(colorBlue))),
+                           SizedBox(width: 50,height:30,child:ElevatedButton(onPressed:(){
+                            StatusChange(Taskitems[index]['_id']);
+                           },child: Icon(Icons.edit_location_alt_outlined,size: 16),style:AppStatusButtonStyle(colorBlue))),
                            SizedBox(width: 10,),
-                           SizedBox(width: 50,height: 30,child: ElevatedButton( onPressed:(){ }, child: Icon(Icons.delete_outlined,size: 16),style:AppStatusButtonStyle(colorRed))),
+
+                           SizedBox(width: 50,height: 30,child: ElevatedButton( onPressed:(){ 
+                            DeletedItem(Taskitems[index]['_id']);
+                           }, child: Icon(Icons.delete_outlined,size: 16),style:AppStatusButtonStyle(colorRed))),
 
                           ],
                         ),
